@@ -9,7 +9,7 @@ birth_year=$(  echo "$dob" | cut -d "/" -f3  )
 
 today=$( date +%d/%m/%Y) #take the current date from system
 
-# echo " D.O.B=$birth_day /$birth_month / $birth_year ,Today=$today"
+ echo " D.O.B=$birth_day /$birth_month / $birth_year ,Today=$today"
 
 today_day=$(  echo "$today" | cut -d "/" -f1  )
 today_month=$(  echo "$today" | cut -d "/" -f2  )
@@ -21,17 +21,25 @@ years=$(expr $today_year - $birth_year)
 # if happened only take the extra month or day more passed after birthday
 # else decrement the year by 1, and check how much months are gone after the previous birthday
 
-if [ $today_month -lt $birth_month ];then
+if [ "$today_month" -lt "$birth_month" ];then
     ((years--))
     months=$(expr 12 - $birth_month + $today_month )   #did by this,otherwise get error of (value too great for base (error token is "08"))
 else
     months=$(expr $today_month - $birth_month)
 fi
 
+# in if "$num1": This refers to the value of the variable num1. The double quotes are used to prevent word splitting or globbing (expansion of wildcard characters).
 
-#Likewise days are calculate in the month
 
-if [ $today_day -lt $birth_day ];then
+#first check our birth month is same as today's month also the date is less than the birth date, follow certain rule
+#then check if birth month is not same as today's month but the date is less than the birth date, follow certain rule
+#otherwise only subtract the days
+
+if [ "$today_month" -eq "$birth_month" ] && [ "$today_day" -lt "$birth_day" ];then
+    ((years--))
+    months=11
+    days=$(expr 30 - $birth_day + $today_day )
+elif [ $today_day -lt $birth_day ];then
     ((months--))
     days=$(expr 30 - $birth_day + $today_day)
 else
