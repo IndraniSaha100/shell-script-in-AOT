@@ -20,6 +20,4 @@ gcd()
     fi
 }
 
-x=`gcd $1 $2 `
-# echo "Result of $1 and $2 is $x"
-echo "$x"
+echo `gcd $1 $2 `

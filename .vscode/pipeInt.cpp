@@ -1,4 +1,3 @@
-// Online C compiler to run C program online
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -8,16 +7,21 @@
 
 int main(){
 	int fd[2];
-	char string1[20]="saha100";
-	char readbuff[20];
+	int roll=100;
+	int readbuff[20];
 	
 	pipe(fd);
-	pid_t pid=fork();
+	pid_t childpid;
+	
+	if((childpid=fork())==-1)
+	{
+	    printf("Error in fork");
+	}
 	
 	if(pid==0){
 		printf("From child process\n");
 		close(fd[0]);
-		write(fd[1],string1,strlen(string1)+1);
+		write(fd[1],&roll,strlen(int));
 		exit(0);
 	}
 	else{
@@ -26,17 +30,7 @@ int main(){
 		read(fd[0],readbuff,sizeof(readbuff));
 		printf("Receiving String\n");
 		puts(readbuff);
-		int i=0;
-		int isDigit=0;
-		int isChar=0;
-		while(readbuff[i] != '\0'){
-			if(isdigit(readbuff[i]))
-				isDigit++;
-			if(isalpha(readbuff[i]))
-				isChar++;	
-			i++;
-		}
-		printf("Inside the string digit no %d,char no %d",isDigit,isChar);
+		
 		exit(1);
 	}
 	return 0;

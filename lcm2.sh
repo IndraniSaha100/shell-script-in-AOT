@@ -12,4 +12,4 @@ lcm()
     fi
 }
 
-echo `lcm $1 $2`
+echo `lcm "$1" "$2"`
